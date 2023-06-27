@@ -9,9 +9,6 @@ router.use((req, res, next) => {
 });
 
 router.get('/', [authMiddleware, roleMiddleware('USER')], userController.getUsers);
-router.post('/upload/photo', userController.uploadPhoto);
-router.post('/upload/cv', userController.uploadCV);
-router.post('/upload/header', userController.uploadHeaderPhoto);
 
 
 module.exports = router;

@@ -13,7 +13,7 @@ const UserSchema = new Schema({
 const Users = model('users', UserSchema);
 
 const SkillSchema = new Schema({
-    title: {type: String, require: true},
+    title: {type: String, require: true, unique: true},
     picture: {type: String, require: true},
 });
 const Skills = model('skills', SkillSchema);

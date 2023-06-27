@@ -4,23 +4,22 @@ class SkillsController {
     async getAllSkills(req, res, next) {
         try {
             const skills = await skillsService.getAllSkills();
-            res.json(skills).status(200);
+            return res.json(skills).status(200);
         } catch (e) {
-            throw e;
+            console.log(e);
+            return res.status(400).json({message: e.message});
         }
     }
 
     async createSkill(req, res, next) {
         try {
-            const file = req.files.file;
-            if(file.mimetype.slice(0,5) !== 'image'){
-                res.status(400).json({message:'Photo extension can only be image format'});
-            }
+            const image = req.files.image;
             const {title} = req.body;
-            const createdSkill = await skillsService.createSkill(title, file);
-            res.json(createdSkill).status(200);
+            const createdSkill = await skillsService.createSkill(title, image);
+            return res.json(createdSkill).status(200);
         } catch (e) {
-            throw e;
+            console.log(e);
+            return res.status(400).json({message: e.message});
         }
     }
 
@@ -29,14 +28,12 @@ class SkillsController {
             const {title, picture} = req.body;
             const id = req.params.id;
             const skill = {id, title, picture};
-            const file = req.files.file;
-            if(file.mimetype.slice(0,5) !== 'image'){
-                res.status(400).json({message:'Photo extension can only be image format'});
-            }
-            const updatedSkill = await skillsService.updateSkill(skill, file);
-            res.json(updatedSkill).status(200);
+            const image = req.files.image;
+            const updatedSkill = await skillsService.updateSkill(skill, image);
+            return res.json(updatedSkill).status(200);
         } catch (e) {
-            throw e;
+            console.log(e);
+            return res.status(400).json({message: e.message});
         }
     }
 
@@ -44,9 +41,10 @@ class SkillsController {
         try {
             const id = req.params.id;
             const deletedSkill = await skillsService.deleteSkill(id);
-            res.json(deletedSkill).status(200);
+            return res.json(deletedSkill).status(200);
         } catch (e) {
-            throw e;
+            console.log(e);
+            return res.status(400).json({message: e.message});
         }
     }
 }

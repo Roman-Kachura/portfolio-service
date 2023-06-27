@@ -1,7 +1,7 @@
 const {Users, Role} = require("../schemas/schemas");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const {secret} = require('../config');
+const {secret} = require('../../config');
 const userDto = require('../dto/user.dto');
 
 const createAccessToken = (id, roles) => jwt.sign({id, roles}, secret, {expiresIn: '24h'})
