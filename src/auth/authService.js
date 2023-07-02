@@ -1,10 +1,9 @@
 const {Users, Role} = require("../schemas/schemas");
 const bcrypt = require("bcrypt");
 const jwt = require('jsonwebtoken');
-const {secret} = require('../../config');
-const userDto = require('../dto/user.dto');
+const userDto = require('../users/user.dto');
 
-const createAccessToken = (id, roles) => jwt.sign({id, roles}, secret, {expiresIn: '24h'})
+const createAccessToken = (id, roles) => jwt.sign({id, roles}, process.env.SECRET, {expiresIn: '24h'})
 
 class AuthService {
     async login(email, password) {

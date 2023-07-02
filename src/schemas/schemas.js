@@ -25,8 +25,20 @@ const ContactSchema = new Schema({
 });
 const Contacts = model('contacts', ContactSchema);
 
+const AuthorSchema = new Schema({
+    name: {type: String, unique: true, require: true},
+    email: {type: String, unique: true, require: true},
+    phone: {type: String, unique: true, require: true},
+    location: {
+        name:{type: String, require: true},
+        url:{type: String, require: true}
+    },
+});
+const Authors = model('authors', AuthorSchema);
+
 
 exports.Users = Users;
 exports.Skills = Skills;
 exports.Contacts = Contacts;
 exports.Role = Role;
+exports.Authors = Authors;

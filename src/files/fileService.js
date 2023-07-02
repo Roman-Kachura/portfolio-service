@@ -1,10 +1,11 @@
 const path = require("path");
 const fs = require("fs");
+const {staticPath} = require("../paths");
 
 class FileService {
     async saveFile(file, fileName) {
         try {
-            const filePath = path.resolve('static', fileName);
+            const filePath = path.resolve(staticPath, fileName);
             await file.mv(filePath)
             return filePath;
         } catch (e) {
@@ -14,7 +15,7 @@ class FileService {
 
     async saveImage(image, imageName) {
         try {
-            const imagePath = path.resolve('static', 'images', imageName);
+            const imagePath = path.resolve(staticPath, 'images', imageName);
             await image.mv(imagePath)
             return imagePath;
         } catch (e) {
@@ -24,7 +25,7 @@ class FileService {
 
     async deleteImage(imageName){
         try {
-            const imagePath = path.resolve('static', 'images', imageName);
+            const imagePath = path.resolve(staticPath, 'images', imageName);
             fs.unlink(imagePath,(err)=>{
                 if(err) throw err;
                 return 'The image has been deleted!'

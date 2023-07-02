@@ -7,16 +7,19 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const app = express();
 const authRouter = require('./src/auth/authRouter');
-const userRouter = require('./src/user/userRouter');
+const userRouter = require('./src/users/userRouter');
 const skillsRouter = require('./src/skills/skillsRouter');
 const contactsRouter = require('./src/contacts/contactsRouter');
 const filesRouter = require('./src/files/filesRouter');
+const authorRouter = require('./src/author/authorRouter');
+const transporterRouter = require('./src/transporter/transporterRouter');
 const port = process.env.PORT || 5000;
 
 app.use(cors({}));
 app.use(express.json());
 app.use(express.static('static'));
 app.use(express.static('static/images'));
+app.use(express.static('public'));
 app.use(fileUpload({}));
 app.get('/', (req, res) => {
     const pathFile = path.join(__dirname, 'public', 'index.html');
@@ -30,6 +33,8 @@ app.use('/skills', skillsRouter);
 app.use('/contacts', contactsRouter);
 app.use('/auth', authRouter);
 app.use('/files', filesRouter);
+app.use('/author', authorRouter);
+app.use('/mail', transporterRouter);
 
 const serverStart = () => {
     try {
