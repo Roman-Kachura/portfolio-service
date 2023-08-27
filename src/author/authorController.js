@@ -28,7 +28,8 @@ class AuthorController {
 
     async updateAuthor(req, res, next) {
         try {
-            const updatedAuthor = await authorService.updateAuthor(req.params);
+            const data = {id:req.params.id, ...req.body}
+            const updatedAuthor = await authorService.updateAuthor(data);
             return res.status(200).json(updatedAuthor);
         } catch (e) {
             return res.status(400).json({message: e.message});

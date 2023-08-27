@@ -8,7 +8,6 @@ class FilesMiddlewares {
             if (image.mimetype.slice(0, 5) !== 'image') return res.status(400).json({message: 'File extension can only be image format'});
             next();
         } catch (e) {
-            console.log(e);
             return res.status(400).json({message: e.message});
         }
 
@@ -23,7 +22,6 @@ class FilesMiddlewares {
             if (file.mimetype !== 'application/pdf') return res.status(400).json({message: 'File extension can only be pdf!'});
             next();
         } catch (e) {
-            console.log(e);
             return res.status(400).json({message: e.message});
         }
     }

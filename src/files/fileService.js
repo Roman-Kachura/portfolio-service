@@ -1,38 +1,54 @@
 const path = require("path");
-const fs = require("fs");
 const {staticPath} = require("../paths");
+const cloudinary = require("cloudinary");
+const fs = require("fs");
+const {File} = require("../schemas/schemas");
+const {upload, destroy} = cloudinary.v2.uploader;
 
 class FileService {
-    async saveFile(file, fileName) {
+    async saveFile(file, fileName, format) {
         try {
+            if(fileName === 'CV'){
+                const filePath = path.resolve('public', 'static','media',`${fileName}.${format}`);
+                await file.mv(filePath,(err) => {
+                    if(err) throw(err);
+                })
+
+                return {name: fileName, url: filePath}
+            }
+            const isFileInCloud = await File.findOne({name: fileName});
+            if (isFileInCloud) await this.deleteFile(fileName);
             const filePath = path.resolve(staticPath, fileName);
-            await file.mv(filePath)
-            return filePath;
+            await file.mv(filePath);
+            const savedInCloudFile = await upload(filePath, {
+                folder: 'portfolio',
+                public_id: fileName,
+                format: format,
+                unique_filename: true
+            });
+            await fs.rm(filePath, (err) => {
+                if (err) console.log(err);
+            });
+            return await File.create({name: fileName, url: savedInCloudFile.url});
         } catch (e) {
             throw e;
         }
     }
 
-    async saveImage(image, imageName) {
+    async deleteFile(imageName) {
         try {
-            const imagePath = path.resolve(staticPath, 'images', imageName);
-            await image.mv(imagePath)
-            return imagePath;
+            await destroy(`portfolio/${imageName}`);
+            const deletedImage = await File.deleteOne({name: imageName});
+            return deletedImage;
         } catch (e) {
             throw e;
         }
     }
 
-    async deleteImage(imageName){
-        try {
-            const imagePath = path.resolve(staticPath, 'images', imageName);
-            fs.unlink(imagePath,(err)=>{
-                if(err) throw err;
-                return 'The image has been deleted!'
-            })
-        }catch (e) {
-            throw e;
-        }
+    async getFile(fileName) {
+        const file = await File.findOne({name: fileName});
+        if (!file) return {message: 'File not found!'};
+        return file;
     }
 }
 

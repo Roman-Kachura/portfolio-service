@@ -10,21 +10,25 @@ router.use((req, res, next) => {
 });
 
 router.post('/upload/image/photo', [
-    authMiddleware,
-    roleMiddleware('ADMIN'),
+    // authMiddleware,
+    // roleMiddleware('ADMIN'),
     filesMiddlewares.imageMiddleware
-],filesController.uploadPhoto);
+], filesController.uploadPhoto);
 
 router.post('/upload/pdf/cv', [
-    authMiddleware,
-    roleMiddleware('ADMIN'),
+    // authMiddleware,
+    // roleMiddleware('ADMIN'),
     filesMiddlewares.pdfMiddleware
-],filesController.uploadCV);
+], filesController.uploadCV);
 
 router.post('/upload/image/header', [
-    authMiddleware,
-    roleMiddleware('ADMIN'),
+    // authMiddleware,
+    // roleMiddleware('ADMIN'),
     filesMiddlewares.imageMiddleware
 ], filesController.uploadHeaderPhoto);
+
+router.get('/image/photo', filesController.getPhoto);
+router.get('/image/header', filesController.getHeaderPhoto);
+router.get('/pdf/cv', filesController.getCV);
 
 module.exports = router;

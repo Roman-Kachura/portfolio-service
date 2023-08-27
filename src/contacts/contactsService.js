@@ -20,9 +20,9 @@ class ContactsService {
         }
     }
 
-    async updateContact(id, contact) {
+    async updateContact(data) {
         try {
-            const updatedContact = await Contacts.updateOne({_id: id}, contact);
+            const updatedContact = await Contacts.updateOne({_id: data.id}, {href:data.href,name:data.name,icon:data.icon});
             return updatedContact;
         } catch (e) {
             throw e;

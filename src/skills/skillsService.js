@@ -7,20 +7,23 @@ class SkillsService {
     }
 
     async createSkill(title, image) {
-        const imageName = `${title}.jpg`;
-        await fileService.saveImage(image, imageName);
-        return Skills.create({title, picture: imageName});
+        const skill = await Skills.findOne({title});
+        if (skill) throw {message: 'Skill with such a title is already in database!'};
+        const savedImage = await fileService.saveFile(image, title, 'png');
+        return Skills.create({title, picture:savedImage.url});
     }
 
     async updateSkill(skill, image) {
         const {id, title, picture} = skill;
-        const imageName = `${title}.jpg`;
-        await fileService.deleteImage(picture);
-        await fileService.saveImage(image, imageName);
-        return Skills.updateOne({_id: id}, {title, picture: imageName});
+        await fileService.deleteFile(picture);
+        const newPicture = await fileService.saveFile(image, title,'png');
+        return Skills.updateOne({_id: id}, {title, picture: newPicture.url});
     }
 
     async deleteSkill(id) {
+        const skill = await Skills.findOne({_id: id});
+        if (!skill) throw {message: 'There are not such a skill in the database!'};
+        await fileService.deleteFile(skill.title);
         return Skills.deleteOne({_id: id});
     }
 }

@@ -19,14 +19,14 @@ router.post('/', [
 ],skillsController.createSkill);
 
 router.put('/:id', [
-    authMiddleware,
-    roleMiddleware('ADMIN'),
+    // authMiddleware,
+    // roleMiddleware('ADMIN'),
     filesMiddlewares.imageMiddleware
 ],skillsController.updateSkill);
 
 router.delete('/:id', [
-    authMiddleware,
-    roleMiddleware('ADMIN')
+    // authMiddleware,
+    // roleMiddleware('ADMIN')
 ],skillsController.deleteSkill);
 
 module.exports = router;

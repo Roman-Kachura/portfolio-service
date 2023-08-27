@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path = require('path');
+const http = require('http');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const express = require('express');
@@ -13,6 +14,8 @@ const contactsRouter = require('./src/contacts/contactsRouter');
 const filesRouter = require('./src/files/filesRouter');
 const authorRouter = require('./src/author/authorRouter');
 const transporterRouter = require('./src/transporter/transporterRouter');
+const projectsRouter = require('./src/projects/projectsRouter');
+const cloudinary = require("cloudinary");
 const port = process.env.PORT || 5000;
 
 app.use(cors({}));
@@ -35,15 +38,21 @@ app.use('/auth', authRouter);
 app.use('/files', filesRouter);
 app.use('/author', authorRouter);
 app.use('/mail', transporterRouter);
+app.use('/projects', projectsRouter);
 
 const serverStart = () => {
     try {
+        cloudinary.config({
+            cloud_name: 'dp8gsdfks',
+            api_key: '137623215113561',
+            api_secret: 'V7MukkUNCu3NGbUe9k5aDVCWkSI'
+        });
         mongoose.connect(`mongodb+srv://romakachyra:bojCMiwtgJWZlzB1@cluster0.vb9ft0m.mongodb.net/portfolio?retryWrites=true&w=majority`);
         app.listen(port, () => {
             console.log(`Server started on port ${port}`);
         });
     } catch (e) {
-        console.log(e)
+        console.log(e.message)
     }
 }
 
