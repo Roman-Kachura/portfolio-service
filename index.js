@@ -17,16 +17,14 @@ const projectsRouter = require('./src/projects/projectsRouter');
 const cloudinary = require("cloudinary");
 const port = process.env.PORT || 5000;
 
-app.use(cors({
-  origin: '*'
-}));
+app.use(cors({}));
 app.use(express.json());
 app.use(express.static('static'));
 app.use(express.static('static/images'));
 app.use(express.static('public'));
 app.use(fileUpload({}));
 app.get('/', (req, res) => {
-  return res.json({message: 'Server works correctly!'}).status(200);
+  return res.status(200).json({message: 'Server works correctly!'});
 });
 
 app.use('/users', userRouter);
