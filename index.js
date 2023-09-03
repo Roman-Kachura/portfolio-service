@@ -17,7 +17,9 @@ const projectsRouter = require('./src/projects/projectsRouter');
 const cloudinary = require("cloudinary");
 const port = process.env.PORT || 5000;
 
-app.use(cors({}));
+app.use(cors({
+    origin:'*'
+}));
 app.use(express.json());
 app.use(express.static('static'));
 app.use(express.static('static/images'));
