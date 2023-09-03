@@ -1,6 +1,5 @@
 require('dotenv').config();
 const path = require('path');
-const http = require('http');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const express = require('express');
@@ -37,7 +36,7 @@ app.use('/contacts', contactsRouter);
 app.use('/auth', authRouter);
 app.use('/files', filesRouter);
 app.use('/author', authorRouter);
-app.use('/mail', transporterRouter);
+app.use('/email', transporterRouter);
 app.use('/projects', projectsRouter);
 
 const serverStart = () => {

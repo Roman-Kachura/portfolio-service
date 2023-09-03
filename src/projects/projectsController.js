@@ -14,7 +14,6 @@ class ProjectsController {
   async getAllProjects(req, res, next) {
     try {
       const projects = await projectsService.getAllProjects();
-      console.log(projects)
       return res.status(200).json(projects);
     } catch (e) {
       return res.status(400).json({message: e.message});

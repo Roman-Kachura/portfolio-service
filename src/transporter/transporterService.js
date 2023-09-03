@@ -2,7 +2,6 @@ const {transporter} = require('./transporter');
 
 class TransporterService {
     async sendMessage(data) {
-        console.log(transporter);
         try {
             const info = await transporter.sendMail({
                 email: data.email,

@@ -6,9 +6,9 @@ class AuthController {
         try {
             const {email, password} = req.body;
             const response = await authService.login(email, password);
-            return res.json(response).status(200);
+            return res.status(200).json(response);
         } catch (e) {
-            return res.json({message: e}).status(400);
+            return res.status(400).json({message: e});
         }
     }
 

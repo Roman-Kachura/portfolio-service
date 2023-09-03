@@ -7,26 +7,26 @@ const filesMiddlewares = require('../middlewares/filesMiddlewares');
 
 
 router.use((req, res, next) => {
-    next();
+  next();
 });
 
 router.get('/', skillsController.getAllSkills);
 
 router.post('/', [
-    authMiddleware,
-    roleMiddleware('ADMIN'),
-    filesMiddlewares.imageMiddleware
-],skillsController.createSkill);
+  authMiddleware,
+  roleMiddleware('ADMIN'),
+  filesMiddlewares.imageMiddleware
+], skillsController.createSkill);
 
 router.put('/:id', [
-    // authMiddleware,
-    // roleMiddleware('ADMIN'),
-    filesMiddlewares.imageMiddleware
-],skillsController.updateSkill);
+  authMiddleware,
+  roleMiddleware('ADMIN'),
+  filesMiddlewares.imageMiddleware
+], skillsController.updateSkill);
 
 router.delete('/:id', [
-    // authMiddleware,
-    // roleMiddleware('ADMIN')
-],skillsController.deleteSkill);
+  authMiddleware,
+  roleMiddleware('ADMIN')
+], skillsController.deleteSkill);
 
 module.exports = router;

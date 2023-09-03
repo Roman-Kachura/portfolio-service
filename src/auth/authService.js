@@ -9,9 +9,9 @@ class AuthService {
     async login(email, password) {
         try {
             const foundUser = await Users.findOne({email});
-            if (!foundUser) return {message: 'User with this email is not found!'};
+            if (!foundUser) throw 'User with this email is not found!';
             const isValidation = await bcrypt.compareSync(password, foundUser.password);
-            if (!isValidation) return {message: 'Email or password is not correct!'};
+            if (!isValidation) throw 'Email or password is not correct!';
             const user = userDto.getUser(foundUser);
             const accessToken = createAccessToken(foundUser._id, foundUser.roles);
             return {user, accessToken};
