@@ -6,6 +6,10 @@
   "repository": "https://github.com/Roman-Kachura/portfolio-service.git",
   "author": "Roman Kachura <roma.kachyra@gmail.com>",
   "license": "MIT",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.40.0",
