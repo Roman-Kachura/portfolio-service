@@ -18,9 +18,7 @@ const cloudinary = require("cloudinary");
 const port = process.env.PORT || 5000;
 const client_url = process.env.CLIENT_URL || 'http://localhos:3000';
 
-app.use(cors({
-  origin: client_url
-}));
+app.use(cors());
 app.use(express.json());
 app.use(express.static('static'));
 app.use(express.static('static/images'));
