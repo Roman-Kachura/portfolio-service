@@ -26,13 +26,7 @@ app.use(express.static('static/images'));
 app.use(express.static('public'));
 app.use(fileUpload({}));
 app.get('/', (req, res) => {
-  const pathFile = path.join(__dirname, 'public', 'index.html');
-  fs.readFile(pathFile, {encoding: 'utf8'}, (err, file) => {
-    if (err) {
-      throw err;
-    }
-    return res.status(200).send(file);
-  })
+  return res.json({message: 'Server works correctly!'}).status(200);
 });
 
 app.use('/users', userRouter);
