@@ -18,7 +18,7 @@ const cloudinary = require("cloudinary");
 const port = process.env.PORT || 5000;
 
 app.use(cors({
-    origin:'*'
+  origin: '*'
 }));
 app.use(express.json());
 app.use(express.static('static'));
@@ -26,10 +26,13 @@ app.use(express.static('static/images'));
 app.use(express.static('public'));
 app.use(fileUpload({}));
 app.get('/', (req, res) => {
-    const pathFile = path.join(__dirname, 'public', 'index.html');
-    fs.readFile(pathFile, {encoding: 'utf8'}, (err, file) => {
-        return res.status(200).send(file);
-    })
+  const pathFile = path.join(__dirname, 'public', 'index.html');
+  fs.readFile(pathFile, {encoding: 'utf8'}, (err, file) => {
+    if (err) {
+      throw err;
+    }
+    return res.status(200).send(file);
+  })
 });
 
 app.use('/users', userRouter);
@@ -42,19 +45,19 @@ app.use('/email', transporterRouter);
 app.use('/projects', projectsRouter);
 
 const serverStart = () => {
-    try {
-        cloudinary.config({
-            cloud_name: 'dp8gsdfks',
-            api_key: '137623215113561',
-            api_secret: 'V7MukkUNCu3NGbUe9k5aDVCWkSI'
-        });
-        mongoose.connect(`mongodb+srv://romakachyra:bojCMiwtgJWZlzB1@cluster0.vb9ft0m.mongodb.net/portfolio?retryWrites=true&w=majority`);
-        app.listen(port, () => {
-            console.log(`Server started on port ${port}`);
-        });
-    } catch (e) {
-        console.log(e.message)
-    }
+  try {
+    cloudinary.config({
+      cloud_name: 'dp8gsdfks',
+      api_key: '137623215113561',
+      api_secret: 'V7MukkUNCu3NGbUe9k5aDVCWkSI'
+    });
+    mongoose.connect(`mongodb+srv://romakachyra:bojCMiwtgJWZlzB1@cluster0.vb9ft0m.mongodb.net/portfolio?retryWrites=true&w=majority`);
+    app.listen(port, () => {
+      console.log(`Server started on port ${port}`);
+    });
+  } catch (e) {
+    console.log(e.message)
+  }
 }
 
 serverStart();
