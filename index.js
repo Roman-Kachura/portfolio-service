@@ -20,9 +20,9 @@ const client_url = process.env.CLIENT_URL || 'http://localhos:3000';
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('public/static'));
-app.use(express.static('public/static/images'));
-// app.use(express.static('public'));
+app.use(express.static('static'));
+app.use(express.static('static/images'));
+
 app.use(fileUpload({}));
 app.get('/', (req, res) => {
   return res.status(200).json({message: 'Server works correctly!'});
