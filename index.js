@@ -24,9 +24,14 @@ app.use(express.static('static'));
 app.use(express.static('static/images'));
 
 app.use(fileUpload({}));
-app.get('/', (req, res) => {
-  return res.status(200).json({message: 'Server works correctly!'});
-});
+const startPage = (req, res) => {
+  try {
+    return res.json({message: 'Service works correct!'}).status(200);
+  } catch (e) {
+    return res.json({message: e}).status(500);
+  }
+}
+app.get('/', startPage);
 
 app.use('/users', userRouter);
 app.use('/skills', skillsRouter);
