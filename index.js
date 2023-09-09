@@ -15,18 +15,21 @@ const authorRouter = require('./src/author/authorRouter');
 const transporterRouter = require('./src/transporter/transporterRouter');
 const projectsRouter = require('./src/projects/projectsRouter');
 const cloudinary = require("cloudinary");
+const {staticDirectory, imagesDirectory, publicDirectory} = require("./paths");
 const port = process.env.PORT || 5000;
-const client_url = process.env.CLIENT_URL || 'http://localhos:3000';
 
 app.use(cors());
 app.use(express.json());
-app.use(express.static('static'));
-app.use(express.static('static/images'));
+app.use(express.static(staticDirectory));
+app.use(express.static(imagesDirectory));
+app.use(express.static(publicDirectory));
 
 app.use(fileUpload({}));
 const startPage = (req, res) => {
   try {
-    return res.json({message: 'Service works correct!'}).status(200);
+    fs.readFile(path.resolve(publicDirectory, 'index.html'), (err, data) => {
+      return res.send(data).status(200);
+    })
   } catch (e) {
     return res.json({message: e}).status(500);
   }

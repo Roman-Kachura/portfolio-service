@@ -1,5 +1,5 @@
 const path = require("path");
-const {staticPath} = require("../paths");
+const {staticPath} = require("../../paths");
 const cloudinary = require("cloudinary");
 const fs = require("fs");
 const {File} = require("../schemas/schemas");
