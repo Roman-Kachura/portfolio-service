@@ -7,7 +7,7 @@ class ContactsController {
       const createdContact = await contactsService.createContact({name, icon, href});
       return res.json(createdContact).status(200);
     } catch (e) {
-      throw e;
+      return res.json({message:e}).status(400);
     }
   }
 
@@ -16,17 +16,16 @@ class ContactsController {
       const contacts = await contactsService.getAllContacts();
       return res.json(contacts).status(200);
     } catch (e) {
-      throw e;
+      return res.json({message:e}).status(400);
     }
   }
 
   async updateContact(req, res, next) {
     try {
-      const data = {id: req.params.id, ...req.body};
-      const updatedContact = await contactsService.updateContact(data);
+      const updatedContact = await contactsService.updateContact(req.body);
       return res.json(updatedContact).status(200);
     } catch (e) {
-      throw e;
+      return res.json({message:e}).status(400);
     }
   }
 
@@ -36,7 +35,7 @@ class ContactsController {
       const deletedContact = await contactsService.deleteContact(id);
       return res.json(deletedContact).status(200);
     } catch (e) {
-      throw e;
+      return res.json({message:e}).status(400);
     }
   }
 }

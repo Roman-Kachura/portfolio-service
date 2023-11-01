@@ -1,6 +1,7 @@
 const filesService = require("./fileService");
 const path = require("path");
 const fs = require("fs");
+const {staticPath} = require("../../paths");
 
 class FilesController {
   async uploadPhoto(req, res, next) {
@@ -21,6 +22,7 @@ class FilesController {
       const fileName = 'CV';
       const format = 'pdf';
       const savedFile = await filesService.saveFile(file, fileName, format);
+      console.log(savedFile)
       return res.status(200).json(savedFile);
     } catch (e) {
       return res.status(400).json({message: e.message});
@@ -50,7 +52,15 @@ class FilesController {
 
   async getCV(req, res, next) {
     try {
-      const filePath = path.resolve('public', 'static', 'media', 'CV.pdf');
+      return res.status(200).json({url: `${process.env.SERVER_URL}files/show/cv`})
+    } catch (e) {
+      return res.status(400).json({message: e.message});
+    }
+  }
+
+  async showCVFile(req, res, next) {
+    try {
+      const filePath = path.resolve(staticPath, 'CV.pdf');
       return res.status(200).sendFile(filePath);
     } catch (e) {
       return res.status(400).json({message: e.message});

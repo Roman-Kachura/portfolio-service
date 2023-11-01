@@ -1,5 +1,6 @@
 require('dotenv').config();
 const path = require('path');
+const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const fileUpload = require('express-fileupload');
 const express = require('express');
@@ -19,6 +20,7 @@ const {staticDirectory, imagesDirectory, publicDirectory} = require("./paths");
 const port = process.env.PORT || 5000;
 
 app.use(cors());
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(staticDirectory));
 app.use(express.static(imagesDirectory));

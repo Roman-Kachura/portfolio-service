@@ -26,7 +26,6 @@ class SkillsController {
     async updateSkill(req, res, next) {
         try {
             const {title, picture} = req.body;
-            console.log(title)
             const id = req.params.id;
             const skill = {id, title, picture};
             const image = req.files.image;

@@ -1,10 +1,11 @@
 const {Projects} = require("../schemas/schemas");
 const fileService = require("../files/fileService");
+const {log} = require("util");
 
 const checkUrls = (url) => {
-  const reg1 = /http:\/\/.{1,}\.[a-z]{2,3}/gi;
-  const reg2 = /https:\/\/.{1,}\.[a-z]{2,3}/gi;
-  return !reg2.test(url) && !reg1.test(url);
+  const reg1 = url.slice(0, 7) === 'http://';
+  const reg2 = url.slice(0, 8) === 'https://';
+  return reg1 | reg2;
 }
 
 class ProjectsService {
@@ -14,8 +15,10 @@ class ProjectsService {
       const {name, image, url, github} = data;
       const isProjectInDB = await Projects.findOne({name});
       if (isProjectInDB) throw {message: 'Project with such a name is already in database!'};
-      if (checkUrls(url)) throw {message: 'Url is not correct!'};
-      if (checkUrls(github)) throw {message: 'Github link is not correct!'};
+      if (!checkUrls(url)) {
+        throw {message: 'Url is not correct!'};
+      }
+      if (!checkUrls(github)) throw {message: 'Github link is not correct!'};
       if (name.length === 0) throw {message: 'Name can not be empty!'};
       const savedImage = await fileService.saveFile(image, name, 'png');
       const createdProject = await Projects.create({
@@ -39,8 +42,8 @@ class ProjectsService {
     const {name, github, url, image} = data;
     const isProjectInDB = await Projects.findOne({_id});
     if (!isProjectInDB) throw {message: 'There is not a project with this id in DataBase!'};
-    if (checkUrls(url)) throw {message: 'Url is not correct!'};
-    if (checkUrls(github)) throw {message: 'Github link is not correct!'};
+    if (!checkUrls(url)) throw {message: 'Url is not correct!'};
+    if (!checkUrls(github)) throw {message: 'Github link is not correct!'};
     const savedImage = await fileService.saveFile(image, name, 'png');
     const updatedProject = await Projects.updateOne({_id}, {
       name,

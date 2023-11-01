@@ -30,5 +30,6 @@ router.post('/upload/image/header', [
 router.get('/image/photo', filesController.getPhoto);
 router.get('/image/header', filesController.getHeaderPhoto);
 router.get('/pdf/cv', filesController.getCV);
+router.get('/show/cv', filesController.showCVFile);
 
 module.exports = router;
