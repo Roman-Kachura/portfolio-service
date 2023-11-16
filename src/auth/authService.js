@@ -1,9 +1,8 @@
 const {Users, Role} = require("../schemas/schemas");
 const bcrypt = require("bcrypt");
-const jwt = require('jsonwebtoken');
 const userDto = require('../users/user.dto');
-
-const createAccessToken = (id, roles) => jwt.sign({id, roles}, process.env.SECRET, {expiresIn: '24h'})
+const tokensServices = require('../tokens/tokensServices');
+const jwt = require("jsonwebtoken");
 
 class AuthService {
   async login(email, password) {
@@ -12,10 +11,11 @@ class AuthService {
       if (!foundUser) throw 'User with this email is not found!';
       const isValidation = await bcrypt.compareSync(password, foundUser.password);
       if (!isValidation) throw 'Email or password is not correct!';
-      const accessToken = createAccessToken(foundUser._id, foundUser.roles);
-      await Users.updateOne({_id: foundUser._id}, {access_token: accessToken})
+      const accessToken = tokensServices.createAccessToken(foundUser._id, foundUser.roles);
+      const refreshToken = tokensServices.createRefreshToken(foundUser._id, foundUser.roles);
+      await Users.updateOne({_id: foundUser._id}, {access_token: accessToken, refresh_token: refreshToken})
       const user = userDto.getUser(foundUser);
-      return {user, accessToken};
+      return {user, tokens: {access_token: accessToken, refresh_token: refreshToken}};
     } catch (e) {
       throw e;
     }
@@ -40,11 +40,27 @@ class AuthService {
     try {
       const foundUser = await Users.findOne({_id});
       if (!foundUser) throw 'User with this email is not found!';
-      await Users.updateOne({_id}, {access_token:''})
+      await Users.updateOne({_id}, {access_token: ''})
       return {}
     } catch (e) {
       throw e;
     }
+  }
+
+  async refresh(refresh_token) {
+    if (!refresh_token) throw {message: 'Refresh token is not found!'};
+    if (refresh_token.length === 0) throw {message: 'Refresh token is not found!'};
+    const decodedData = jwt.verify(refresh_token, process.env.REFRESH_SECRET);
+    const user = await Users.findOne({_id: decodedData.id, refresh_token});
+    if (!user) throw {message: 'User is not found!'};
+    const accessToken = tokensServices.createAccessToken(decodedData.id, decodedData.roles);
+    const refreshToken = tokensServices.createRefreshToken(decodedData.id, decodedData.roles);
+    await Users.updateOne({_id: decodedData.id}, {
+      access_token: accessToken,
+      refresh_token: refreshToken
+    });
+    const userData = userDto.getUser(user);
+    return {user:userData, tokens: {access_token: accessToken, refresh_token: refreshToken}};
   }
 }
 

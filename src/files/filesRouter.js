@@ -10,20 +10,20 @@ router.use((req, res, next) => {
 });
 
 router.post('/upload/image/photo', [
-    // authMiddleware,
-    // roleMiddleware('ADMIN'),
+    authMiddleware,
+    roleMiddleware('ADMIN'),
     filesMiddlewares.imageMiddleware
 ], filesController.uploadPhoto);
 
 router.post('/upload/pdf/cv', [
-    // authMiddleware,
-    // roleMiddleware('ADMIN'),
+    authMiddleware,
+    roleMiddleware('ADMIN'),
     filesMiddlewares.pdfMiddleware
 ], filesController.uploadCV);
 
 router.post('/upload/image/header', [
-    // authMiddleware,
-    // roleMiddleware('ADMIN'),
+    authMiddleware,
+    roleMiddleware('ADMIN'),
     filesMiddlewares.imageMiddleware
 ], filesController.uploadHeaderPhoto);
 

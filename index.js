@@ -25,8 +25,8 @@ app.use(express.json());
 app.use(express.static(staticDirectory));
 app.use(express.static(imagesDirectory));
 app.use(express.static(publicDirectory));
-
 app.use(fileUpload({}));
+
 const startPage = (req, res) => {
   try {
     fs.readFile(path.resolve(publicDirectory, 'index.html'), (err, data) => {
@@ -36,8 +36,8 @@ const startPage = (req, res) => {
     return res.json({message: e}).status(500);
   }
 }
-app.get('/', startPage);
 
+app.get ('/', startPage);
 app.use('/users', userRouter);
 app.use('/skills', skillsRouter);
 app.use('/contacts', contactsRouter);

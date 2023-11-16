@@ -28,8 +28,18 @@ class AuthController {
 
   async logout(req, res, next) {
     try {
-      const id = req.user.id;
+      const id = req.params.id;
       const response = await authService.logout(id);
+      return res.status(200).json(response);
+    } catch (e) {
+      return res.status(400).json({message: e});
+    }
+  }
+
+  async refresh(req, res, next) {
+    try {
+      const refresh_token = req.body.refresh_token;
+      const response = await authService.refresh(refresh_token);
       return res.status(200).json(response);
     } catch (e) {
       return res.status(400).json({message: e});

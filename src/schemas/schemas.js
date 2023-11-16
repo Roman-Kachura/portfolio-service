@@ -8,6 +8,7 @@ const Role = model('role', RoleSchema);
 const UserSchema = new Schema({
   email: {type: String, require: true, unique: true},
   access_token: {type: String, require: true, unique: true},
+  refresh_token: {type: String, require: true, unique: true},
   password: {type: String, require: true},
   roles: [{type: String, ref: 'roles'}]
 });

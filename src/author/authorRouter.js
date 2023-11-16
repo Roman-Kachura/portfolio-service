@@ -10,7 +10,7 @@ router.get('/', authorController.getAuthor);
 
 router.post('/', [authMiddleware, roleMiddleware('ADMIN')], authorController.createAuthor);
 
-router.put('/:id', [authMiddleware, roleMiddleware('ADMIN')], authorController.updateAuthor);
+router.put('/', [authMiddleware, roleMiddleware('ADMIN')], authorController.updateAuthor);
 
 router.delete('/:id', [authMiddleware, roleMiddleware('ADMIN')], authorController.deleteAuthor);
 
