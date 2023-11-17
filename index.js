@@ -19,7 +19,7 @@ const cloudinary = require("cloudinary");
 const {staticDirectory, imagesDirectory, publicDirectory} = require("./paths");
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+app.use(cors({}));
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(staticDirectory));
@@ -37,7 +37,7 @@ const startPage = (req, res) => {
   }
 }
 
-app.get ('/', startPage);
+app.get('/', startPage);
 app.use('/users', userRouter);
 app.use('/skills', skillsRouter);
 app.use('/contacts', contactsRouter);
