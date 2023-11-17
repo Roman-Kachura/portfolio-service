@@ -6,6 +6,7 @@ const jwt = require("jsonwebtoken");
 
 class AuthService {
   async login(email, password) {
+    console.log(email, password)
     try {
       const foundUser = await Users.findOne({email});
       if (!foundUser) throw 'User with this email is not found!';
@@ -60,7 +61,7 @@ class AuthService {
       refresh_token: refreshToken
     });
     const userData = userDto.getUser(user);
-    return {user:userData, tokens: {access_token: accessToken, refresh_token: refreshToken}};
+    return {user: userData, tokens: {access_token: accessToken, refresh_token: refreshToken}};
   }
 }
 
