@@ -11,13 +11,12 @@ class AuthService {
       if (!foundUser) throw 'User with this email is not found!';
       const isValidation = await bcrypt.compareSync(password, foundUser.password);
       if (!isValidation) throw 'Email or password is not correct!';
-      const accessToken = await tokensServices.createAccessToken(foundUser._id, foundUser.roles);
-      const refreshToken = await tokensServices.createRefreshToken(foundUser._id, foundUser.roles);
-      await Users.updateOne({_id: foundUser._id}, {access_token: accessToken, refresh_token: refreshToken});
+      const accessToken = tokensServices.createAccessToken(foundUser._id, foundUser.roles);
+      const refreshToken = tokensServices.createRefreshToken(foundUser._id, foundUser.roles);
+      await Users.updateOne({_id: foundUser._id}, {access_token: accessToken, refresh_token: refreshToken})
       const user = userDto.getUser(foundUser);
       return {user, tokens: {access_token: accessToken, refresh_token: refreshToken}};
     } catch (e) {
-      console.log(e)
       throw e;
     }
   }
@@ -61,7 +60,7 @@ class AuthService {
       refresh_token: refreshToken
     });
     const userData = userDto.getUser(user);
-    return {user: userData, tokens: {access_token: accessToken, refresh_token: refreshToken}};
+    return {user:userData, tokens: {access_token: accessToken, refresh_token: refreshToken}};
   }
 }
 
