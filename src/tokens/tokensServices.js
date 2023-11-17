@@ -1,11 +1,11 @@
 const jwt = require("jsonwebtoken");
 
 class TokensServices {
-  createAccessToken(id, roles) {
+  async createAccessToken(id, roles) {
     return jwt.sign({id, roles}, process.env.ACCESS_SECRET, {expiresIn: '1h'});
   }
 
-  createRefreshToken(id, roles) {
+  async createRefreshToken(id, roles) {
     return jwt.sign({id, roles}, process.env.REFRESH_SECRET, {expiresIn: '24h'});
   }
 }
