@@ -23,6 +23,7 @@ class AuthService {
       console.log('user',user)
       return {user, tokens: {access_token: accessToken, refresh_token: refreshToken}};
     } catch (e) {
+      console.log(e)
       throw e;
     }
   }
