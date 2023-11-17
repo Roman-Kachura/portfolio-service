@@ -17,8 +17,10 @@ class FileService {
         return {name: fileName, url: filePath}
       }
       const isFileInCloud = await File.findOne({name: fileName});
+      console.log('isFileInCloud',isFileInCloud)
       if (isFileInCloud) await this.deleteFile(fileName);
       const filePath = path.resolve(staticPath, `${fileName}.${format}`);
+      console.log('filePath',filePath)
       await file.mv(filePath);
       const savedInCloudFile = await upload(filePath, {
         folder: 'portfolio',
@@ -26,6 +28,7 @@ class FileService {
         format: format,
         unique_filename: true
       });
+      console.log('savedInCloudFile',savedInCloudFile)
       await fs.rm(filePath, (err) => {
         if (err) console.log(err);
       });

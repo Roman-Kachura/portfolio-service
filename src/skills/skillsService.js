@@ -10,6 +10,7 @@ class SkillsService {
         const skill = await Skills.findOne({title});
         if (skill) throw {message: 'Skill with such a title is already in database!'};
         const savedImage = await fileService.saveFile(image, title, 'png');
+        console.log('savedImage',savedImage)
         return Skills.create({title, picture:savedImage.url});
     }
 
