@@ -19,17 +19,18 @@ class FileService {
       const isFileInCloud = await File.findOne({name: fileName});
       if (isFileInCloud) await this.deleteFile(fileName);
       const filePath = path.resolve(staticPath, `${fileName}.${format}`);
-      const movedFile = await file.mv(filePath);
-      console.log('movedFile',movedFile)
+      await file.mv(filePath,(err)=>{
+        if(err) console.log(err)
+      });
       const savedInCloudFile = await upload(filePath, {
         folder: 'portfolio',
         public_id: fileName,
         format: format,
         unique_filename: true
       });
-      await fs.rm(filePath, (err) => {
-        if (err) console.log(err);
-      });
+      // await fs.rm(filePath, (err) => {
+      //   if (err) console.log(err);
+      // });
       return await File.create({name: fileName, url: savedInCloudFile.url});
     } catch (e) {
       throw e;
