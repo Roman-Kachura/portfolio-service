@@ -9,7 +9,7 @@ class FileService {
   async saveFile(file, fileName, format) {
     try {
       if (fileName === 'CV') {
-        const filePath = path.resolve('static', 'media', `${fileName}.${format}`);
+        const filePath = path.resolve(staticPath, `${fileName}.${format}`);
         await file.mv(filePath, (err) => {
           if (err) throw(err);
         })
@@ -18,7 +18,7 @@ class FileService {
       }
       const isFileInCloud = await File.findOne({name: fileName});
       if (isFileInCloud) await this.deleteFile(fileName);
-      const filePath = path.resolve(staticPath, fileName);
+      const filePath = path.resolve(staticPath, `${fileName}.${format}`);
       await file.mv(filePath);
       const savedInCloudFile = await upload(filePath, {
         folder: 'portfolio',
