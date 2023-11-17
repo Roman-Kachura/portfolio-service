@@ -8,15 +8,11 @@ class AuthService {
   async login(email, password) {
     try {
       const foundUser = await Users.findOne({email});
-      console.log('foundUser',foundUser)
       if (!foundUser) throw 'User with this email is not found!';
       const isValidation = await bcrypt.compareSync(password, foundUser.password);
-      console.log('isValidation',isValidation)
       if (!isValidation) throw 'Email or password is not correct!';
       const accessToken = tokensServices.createAccessToken(foundUser._id, foundUser.roles);
       const refreshToken = tokensServices.createRefreshToken(foundUser._id, foundUser.roles);
-      console.log('accessToken',accessToken)
-      console.log('refreshToken',refreshToken)
       const updatedUser = await Users.updateOne({_id: foundUser._id}, {access_token: accessToken, refresh_token: refreshToken});
       console.log('updatedUser',updatedUser)
       const user = userDto.getUser(foundUser);
