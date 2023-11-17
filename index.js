@@ -19,7 +19,7 @@ const cloudinary = require("cloudinary");
 const {staticDirectory, imagesDirectory, publicDirectory} = require("./paths");
 const port = process.env.PORT || 5002;
 
-app.use(cors({origin: '*'}));
+app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
 app.use(express.static(staticDirectory));
