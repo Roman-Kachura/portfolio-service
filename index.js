@@ -16,14 +16,13 @@ const authorRouter = require('./src/author/authorRouter');
 const transporterRouter = require('./src/transporter/transporterRouter');
 const projectsRouter = require('./src/projects/projectsRouter');
 const cloudinary = require("cloudinary");
-const {staticDirectory, imagesDirectory, publicDirectory} = require("./paths");
+const {staticPath, publicDirectory} = require("./paths");
 const port = process.env.PORT || 5002;
 
 app.use(cors());
 app.use(cookieParser());
 app.use(express.json());
-app.use(express.static(staticDirectory));
-app.use(express.static(imagesDirectory));
+app.use(express.static(staticPath));
 app.use(express.static(publicDirectory));
 app.use(fileUpload({}));
 
